@@ -1,0 +1,1961 @@
+<html>
+        <head><title>Downloaded HTML</title></head>
+        <body>
+            <pre style="white-space: pre-wrap; word-wrap: break-word;"><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Notflix</title>
+
+<style>
+:root{
+  --bg:#141414;
+  --panel:#181818;
+  --text:#fff;
+  --muted:#b3b3b3;
+  --red:#e50914;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+  overflow-x:hidden;
+}
+
+button,
+input{
+  font:inherit;
+}
+
+button{
+  color:inherit;
+}
+
+/* =========================
+   NAVIGATION
+========================= */
+
+.nav{
+  position:fixed;
+  inset:0 0 auto 0;
+  height:68px;
+  z-index:100;
+  display:flex;
+  align-items:center;
+  padding:0 4%;
+  gap:28px;
+  background:linear-gradient(
+    180deg,
+    rgba(0,0,0,.95),
+    rgba(0,0,0,.55),
+    transparent
+  );
+  transition:background .2s;
+}
+
+.nav.scrolled{
+  background:#141414;
+}
+
+.logo-link{
+  display:flex;
+  align-items:center;
+  text-decoration:none;
+}
+
+.logo{
+  width:82px;
+  height:58px;
+  object-fit:contain;
+  border-radius:6px;
+  flex:0 0 auto;
+}
+
+.navlinks{
+  display:flex;
+  align-items:center;
+  gap:22px;
+  flex:1;
+}
+
+.navlinks button{
+  background:none;
+  border:0;
+  padding:7px 0;
+  color:#e5e5e5;
+  font-size:14px;
+  cursor:pointer;
+}
+
+.navlinks button:hover,
+.navlinks button.active{
+  color:#fff;
+}
+
+.nav-right{
+  display:flex;
+  align-items:center;
+  gap:18px;
+}
+
+.search-wrap{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.search-btn{
+  border:0;
+  background:none;
+  font-size:27px;
+  line-height:1;
+  cursor:pointer;
+}
+
+#searchBox{
+  width:0;
+  opacity:0;
+  border:1px solid #777;
+  background:#111;
+  color:#fff;
+  outline:none;
+  padding:0;
+  transition:.2s;
+}
+
+#searchBox.open{
+  width:190px;
+  opacity:1;
+  padding:8px 10px;
+}
+
+.profile{
+  width:31px;
+  height:31px;
+  border-radius:4px;
+  background:#333;
+  display:grid;
+  place-items:center;
+  font-weight:bold;
+  font-size:13px;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+  min-height:720px;
+  position:relative;
+  display:flex;
+  align-items:flex-end;
+  overflow:hidden;
+
+  background:
+    linear-gradient(
+      90deg,
+      #141414 0%,
+      rgba(20,20,20,.82) 22%,
+      rgba(20,20,20,.28) 58%,
+      rgba(20,20,20,.7) 100%
+    ),
+    linear-gradient(
+      0deg,
+      #141414 0%,
+      rgba(20,20,20,.15) 42%,
+      rgba(20,20,20,.08) 100%
+    ),
+    url("https://image.tmdb.org/t/p/original/qQ87fVgIsyCpEKdBI6RFWbBZxTJ.jpg")
+    center/cover no-repeat;
+}
+
+.hero::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    0deg,
+    #141414 0%,
+    transparent 28%
+  );
+  pointer-events:none;
+}
+
+.hero-content{
+  position:relative;
+  z-index:2;
+  width:min(620px,70%);
+  padding:0 0 90px 5%;
+}
+
+.kicker{
+  font-size:14px;
+  font-weight:bold;
+  letter-spacing:2px;
+  margin-bottom:12px;
+}
+
+.hero h1{
+  font-size:clamp(42px,6vw,78px);
+  line-height:.98;
+  margin:0 0 18px;
+  letter-spacing:-2px;
+}
+
+.hero-meta{
+  color:#ddd;
+  font-size:15px;
+  margin-bottom:15px;
+}
+
+.hero-desc{
+  color:#ddd;
+  line-height:1.5;
+  font-size:16px;
+  max-width:570px;
+  margin:0 0 22px;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.actions{
+  display:flex;
+  gap:10px;
+}
+
+.action{
+  border:0;
+  border-radius:4px;
+  padding:12px 22px;
+  font-weight:bold;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:9px;
+}
+
+.play{
+  background:#fff;
+  color:#000;
+}
+
+.more{
+  background:rgba(109,109,110,.7);
+  color:#fff;
+}
+
+.action:hover{
+  filter:brightness(.9);
+}
+
+/* =========================
+   CONTENT
+========================= */
+
+.content{
+  position:relative;
+  z-index:3;
+  margin-top:-35px;
+}
+
+.row{
+  padding:0 4% 38px;
+}
+
+.row-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  margin:0 0 14px;
+}
+
+.row h2{
+  margin:0;
+  font-size:22px;
+}
+
+.row-link{
+  color:#aaa;
+  font-size:12px;
+}
+
+/* =========================
+   CAROUSEL
+========================= */
+
+.carousel{
+  display:flex;
+  gap:10px;
+  overflow-x:auto;
+  overflow-y:visible;
+  padding:6px 0 16px;
+  scrollbar-width:none;
+}
+
+.carousel::-webkit-scrollbar{
+  display:none;
+}
+
+.card{
+  position:relative;
+  flex:0 0 calc((100% - 40px)/5);
+  aspect-ratio:16/9;
+  border-radius:4px;
+  overflow:hidden;
+  background:#222;
+  cursor:pointer;
+  transition:
+    transform .25s,
+    box-shadow .25s;
+  outline:none;
+}
+
+.card.portrait{
+  aspect-ratio:2/3;
+}
+
+.card:hover,
+.card:focus-visible{
+  transform:scale(1.08);
+  z-index:10;
+  box-shadow:0 8px 28px rgba(0,0,0,.65);
+}
+
+.card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  background:#222;
+}
+
+.card::after{
+  content:"";
+  position:absolute;
+  inset:45% 0 0;
+  background:linear-gradient(
+    transparent,
+    rgba(0,0,0,.9)
+  );
+}
+
+.card-info{
+  position:absolute;
+  left:11px;
+  right:11px;
+  bottom:10px;
+  z-index:2;
+  opacity:0;
+  transform:translateY(5px);
+  transition:.2s;
+}
+
+.card:hover .card-info,
+.card:focus-visible .card-info{
+  opacity:1;
+  transform:none;
+}
+
+.card-title{
+  font-size:13px;
+  font-weight:bold;
+  margin-bottom:4px;
+}
+
+.card-meta{
+  font-size:11px;
+  color:#ddd;
+}
+
+/* =========================
+   CONTINUE WATCHING
+========================= */
+
+.continue .card{
+  flex-basis:calc((100% - 30px)/4);
+}
+
+.continue .card::before{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:4px;
+  background:var(--red);
+  z-index:5;
+}
+
+/* fake progress bars */
+.continue .card:nth-child(1)::after{
+  background:
+    linear-gradient(
+      transparent 55%,
+      rgba(0,0,0,.9)
+    );
+}
+
+.progress{
+  position:absolute;
+  left:0;
+  bottom:0;
+  height:4px;
+  background:#777;
+  z-index:6;
+}
+
+/* =========================
+   POSTERS
+========================= */
+
+.poster .card{
+  flex-basis:calc((100% - 50px)/6);
+}
+
+.poster .card img{
+  object-fit:cover;
+}
+
+.poster .card::after{
+  inset:55% 0 0;
+}
+
+.poster .card-info{
+  opacity:1;
+  transform:none;
+}
+
+.poster .card-title{
+  font-size:14px;
+}
+
+/* =========================
+   SEARCH
+========================= */
+
+.search-results{
+  display:none;
+  min-height:75vh;
+  padding:110px 4% 50px;
+}
+
+.search-results.show{
+  display:block;
+}
+
+.search-results h2{
+  margin:0 0 18px;
+}
+
+.empty{
+  color:#888;
+  padding:30px 0;
+}
+
+/* =========================
+   DETAILS
+========================= */
+
+.details{
+  display:none;
+  min-height:100vh;
+  padding:105px 5% 60px;
+  background:#141414;
+}
+
+.details.show{
+  display:block;
+}
+
+.back{
+  background:none;
+  border:0;
+  color:#fff;
+  font-size:15px;
+  cursor:pointer;
+  padding:0;
+  margin-bottom:30px;
+}
+
+.detail-grid{
+  display:grid;
+  grid-template-columns:280px 1fr;
+  gap:40px;
+  align-items:start;
+}
+
+.detail-poster{
+  width:100%;
+  border-radius:4px;
+  background:#222;
+  display:block;
+}
+
+.detail h1{
+  font-size:48px;
+  margin:0 0 12px;
+}
+
+.detail-meta{
+  color:#ddd;
+  margin-bottom:18px;
+}
+
+.detail p{
+  max-width:700px;
+  color:#ccc;
+  line-height:1.6;
+}
+
+.detail-actions{
+  margin-top:24px;
+}
+
+/* =========================
+   PLAYER
+========================= */
+
+.player{
+  display:none;
+  min-height:100vh;
+  padding:95px 4% 50px;
+  background:#000;
+}
+
+.player.show{
+  display:block;
+}
+
+.player h2{
+  margin:0 0 18px;
+  font-size:24px;
+}
+
+.player iframe{
+  width:100%;
+  height:75vh;
+  min-height:500px;
+  border:0;
+  border-radius:6px;
+  background:#111;
+  display:block;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+  color:#777;
+  text-align:center;
+  padding:25px 0 45px;
+  font-size:12px;
+}
+
+.creator-credit{
+  margin-top:8px;
+  color:#888;
+}
+
+.creator-credit a{
+  color:#aaa;
+  text-decoration:none;
+  margin-left:3px;
+}
+
+.creator-credit a:hover{
+  color:#fff;
+  text-decoration:underline;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:1000px){
+
+  .card{
+    flex-basis:calc((100% - 30px)/4);
+  }
+
+  .poster .card{
+    flex-basis:calc((100% - 40px)/5);
+  }
+
+  .hero{
+    min-height:650px;
+  }
+
+}
+
+@media(max-width:700px){
+
+  .nav{
+    height:60px;
+    padding:0 18px;
+    gap:15px;
+  }
+
+  .logo{
+    width:64px;
+    height:48px;
+  }
+
+  .navlinks{
+    gap:13px;
+    overflow:auto;
+  }
+
+  .navlinks button{
+    font-size:12px;
+    white-space:nowrap;
+  }
+
+  .profile{
+    display:none;
+  }
+
+  .hero{
+    min-height:600px;
+  }
+
+  .hero-content{
+    width:92%;
+    padding:0 0 65px 5%;
+  }
+
+  .hero h1{
+    font-size:45px;
+  }
+
+  .hero-desc{
+    font-size:14px;
+  }
+
+  .card{
+    flex-basis:68%;
+  }
+
+  .continue .card{
+    flex-basis:78%;
+  }
+
+  .poster .card{
+    flex-basis:42%;
+  }
+
+  .detail-grid{
+    grid-template-columns:1fr;
+  }
+
+  .detail-poster{
+    max-width:260px;
+  }
+
+  .detail h1{
+    font-size:38px;
+  }
+
+  .player{
+    padding:85px 15px 30px;
+  }
+
+  .player iframe{
+    height:65vh;
+    min-height:350px;
+  }
+
+}
+
+/* =========================
+   SMALL PHONES
+========================= */
+
+@media(max-width:450px){
+
+  .hero h1{
+    font-size:38px;
+  }
+
+  .hero-meta{
+    font-size:13px;
+  }
+
+  .actions{
+    flex-wrap:wrap;
+  }
+
+  .action{
+    padding:11px 17px;
+  }
+
+  #searchBox.open{
+    position:absolute;
+    right:55px;
+    width:170px;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<!-- =====================================================
+     NAVIGATION
+===================================================== -->
+
+<header class="nav" id="nav">
+
+  <a
+    class="logo-link"
+    href="https://github.com/ProxyUniversity/notflix/blob/e82678c868f13e54f027991def5951627a2f950b/dfcde55d2ed458e153c6a899c4b0539a.png"
+    target="_blank"
+    rel="noopener"
+  >
+    <img
+      class="logo"
+      src="https://raw.githubusercontent.com/ProxyUniversity/notflix/e82678c868f13e54f027991def5951627a2f950b/dfcde55d2ed458e153c6a899c4b0539a.png"
+      alt="Notflix"
+    >
+  </a>
+
+  <nav class="navlinks">
+
+    <button
+      class="active"
+      onclick="goHome()"
+    >
+      Home
+    </button>
+
+    <button
+      onclick="scrollToRow('continue')"
+    >
+      Shows
+    </button>
+
+    <button
+      onclick="scrollToRow('popular')"
+    >
+      Movies
+    </button>
+
+  </nav>
+
+  <div class="nav-right">
+
+    <div class="search-wrap">
+
+      <button
+        class="search-btn"
+        onclick="toggleSearch()"
+        aria-label="Search"
+      >
+        ⌕
+      </button>
+
+      <input
+        id="searchBox"
+        type="search"
+        placeholder="Titles, genres..."
+        oninput="doSearch()"
+      >
+
+    </div>
+
+    <div class="profile">
+      A
+    </div>
+
+  </div>
+
+</header>
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section class="hero" id="hero">
+
+  <div class="hero-content">
+
+    <div class="kicker">
+      
+    </div>
+
+    <h1>
+      what is Notflix?
+    </h1>
+
+    <p class="hero-desc">
+      Notflix is a ai generated Streaming Service created by Aaron The Carter where you can watch movies for free without any virus, click up ads, scam websites, and best of all..... no ad websites every time you click something. this website is 100% legit and safe. videos were added using google drive. all rights to these movies go to their respective owners
+    </p>
+
+    <div class="actions">
+
+      <button
+        class="action play"
+        onclick="details('into')"
+      >
+        ▶ Play "Spider-man into the Spider-verse"
+      </button>
+
+      <button
+        class="action more"
+        onclick="details('into')"
+      >
+        ⓘ More Info on the movie
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     MAIN CONTENT
+===================================================== -->
+
+<main class="content" id="mainContent">
+
+
+  <!-- CONTINUE WATCHING -->
+
+  <section
+    class="row continue"
+    id="continue"
+  >
+
+    <div class="row-title">
+
+      <h2>
+        Continue Watching for You
+      </h2>
+
+      <span class="row-link">
+        See all
+      </span>
+
+    </div>
+
+    <div
+      class="carousel"
+      id="continueGrid"
+    ></div>
+
+  </section>
+
+
+  <!-- POPULAR -->
+
+  <section
+    class="row"
+    id="popular"
+  >
+
+    <div class="row-title">
+
+      <h2>
+        Popular on Notflix
+      </h2>
+
+      <span class="row-link">
+        See all
+      </span>
+
+    </div>
+
+    <div
+      class="carousel"
+      id="popularGrid"
+    ></div>
+
+  </section>
+
+
+  <!-- TOP PICKS -->
+
+  <section
+    class="row poster"
+    id="top"
+  >
+
+    <div class="row-title">
+
+      <h2>
+        Top Picks for You
+      </h2>
+
+      <span class="row-link">
+        See all
+      </span>
+
+    </div>
+
+    <div
+      class="carousel"
+      id="topGrid"
+    ></div>
+
+  </section>
+
+
+  <!-- MORE MOVIES -->
+
+  <section
+    class="row poster"
+    id="new"
+  >
+
+    <div class="row-title">
+
+      <h2>
+        More Movies
+      </h2>
+
+      <span class="row-link">
+        See all
+      </span>
+
+    </div>
+
+    <div
+      class="carousel"
+      id="moreGrid"
+    ></div>
+
+  </section>
+
+
+  <!-- FOOTER -->
+
+  <footer>
+
+    <div>
+      Notflix • personal movie interface
+    </div>
+
+    <div class="creator-credit">
+
+      created by Aaron The Carter
+
+      <a
+        href="https://www.youtube.com/@aaronthecarterreal"
+        target="_blank"
+        rel="noopener"
+      >
+        (support me)
+      </a>
+
+    </div>
+
+  </footer>
+
+</main>
+
+
+<!-- =====================================================
+     SEARCH RESULTS
+===================================================== -->
+
+<section
+  class="search-results"
+  id="results"
+>
+
+  <button
+    class="back"
+    onclick="goHome()"
+  >
+    ← Back to Home
+  </button>
+
+  <h2>
+    Search Results
+  </h2>
+
+  <div
+    class="carousel poster"
+    id="resultsGrid"
+  ></div>
+
+</section>
+
+
+<!-- =====================================================
+     DETAILS PAGE
+===================================================== -->
+
+<section
+  class="details"
+  id="details"
+>
+
+  <button
+    class="back"
+    onclick="goHome()"
+  >
+    ← Back
+  </button>
+
+  <div class="detail-grid">
+
+    <img
+      id="detailPoster"
+      class="detail-poster"
+      alt=""
+    >
+
+    <div class="detail">
+
+      <h1 id="detailTitle"></h1>
+
+      <div
+        id="detailMeta"
+        class="detail-meta"
+      ></div>
+
+      <p id="detailDesc"></p>
+
+      <p>
+        <b>Cast:</b>
+        <span id="detailCast"></span>
+      </p>
+
+      <div class="detail-actions">
+
+        <button
+          class="action play"
+          onclick="playCurrent()"
+        >
+          ▶ Play
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     VIDEO PLAYER
+===================================================== -->
+
+<section
+  class="player"
+  id="player"
+>
+
+  <button
+    class="back"
+    onclick="closePlayer()"
+  >
+    ← Back
+  </button>
+
+  <h2 id="playerTitle"></h2>
+
+  <iframe
+    id="drive"
+    allow="autoplay; fullscreen"
+    allowfullscreen
+  ></iframe>
+
+</section>
+
+
+<script>
+
+/* =========================================================
+   MOVIE DATABASE
+=========================================================
+
+   HOW TO ADD A GOOGLE DRIVE MOVIE:
+
+   Change:
+
+   drive: ""
+
+   to:
+
+   drive: "https://drive.google.com/file/d/YOUR_FILE_ID/view"
+
+   You can also simply put:
+
+   drive: "YOUR_FILE_ID"
+
+========================================================= */
+
+const movies = [
+
+  {
+    id:"bad",
+
+    title:"The Bad Guys 2",
+
+    year:"2025",
+
+    genre:"Animation • Comedy • Family",
+
+    rating:"PG",
+
+    poster:
+      "https://image.tmdb.org/t/p/original/rkdMYvN2NyIuvt3dQnB6g2QSgMC.jpg",
+
+    desc:
+      "The Bad Guys are back for another animated adventure.",
+
+    cast:
+      "Sam Rockwell • Marc Maron • Craig Robinson • Anthony Ramos • Awkwafina",
+
+    drive:"https://drive.google.com/file/d/1iATPN93b6A_UAmG_S5lDs6mUgKyEpO7a/view?usp=sharing"
+  },
+
+
+  {
+    id:"sp3",
+
+    title:"Spider-man 3",
+
+    year:"2007",
+
+    genre:"Action • Adventure • Superhero",
+
+    rating:"PG-13",
+
+    poster:
+      "https://m.media-amazon.com/images/I/A10tF8xUYGL._AC_UF894,1000_QL80_.jpg",
+
+    desc:
+      "Spiderman goes on an adventure to stop venom (note from notflix: the video may be still processing for playback. if it is, try again later.)",
+
+    cast:
+      "Tobey Maguire",
+
+    drive:"https://drive.google.com/file/d/1t5FsxLUPn0EMXec1WHuIjA5_fWmHyNPD/view?usp=sharing"
+  },
+
+
+  {
+    id:"sonic2",
+
+    title:"Sonic the Hedgehog 2",
+
+    year:"2022",
+
+    genre:"Action • Adventure • Comedy",
+
+    rating:"PG",
+
+    poster:
+      "https://i.ebayimg.com/00/s/MTYwMFgxMDY2/z/a~8AAOSwNTtkb1hM/$_57.JPG?set_id=8800005007",
+
+    desc:
+      "Sonic teams up with Tails and faces Dr. Robotnik and Knuckles. (note from notflix: i don't know why the movie was cut off and is 18 minutes long. i'm am very sorry and will get a new version soon.)",
+
+    cast:
+      "Ben Schwartz • James Marsden • Jim Carrey • Idris Elba",
+
+    drive:"https://drive.google.com/file/d/1Vbe70N53rOZfYlm140cMttJw28HS31lj/view?usp=sharing"
+  },
+
+
+  {
+    id:"fnaf2",
+
+    title:"Five Nights at Freddy's 2",
+
+    year:"2025",
+
+    genre:"Horror • Mystery",
+
+    rating:"PG-13",
+
+    poster:
+      "https://images.fandango.com/ImageRenderer/820/0/redesign/static/img/default_poster.png/0/images/masterrepository/fandango/240146/fivenightsandfreddys2.jpg",
+
+    desc:
+      "A new chapter of the Five Nights at Freddy's story.",
+
+    cast:
+      "Josh Hutcherson • Elizabeth Lail • Piper Rubio • Matthew Lillard",
+
+    drive:"https://drive.google.com/file/d/1uZotmtrcmvkhJ8JnD0HPmB4Fnty9xEue/view?usp=sharing"
+  },
+
+
+  {
+    id:"into",
+
+    title:"Spider-Man: Into the Spider-Verse",
+
+    year:"2018",
+
+    genre:"Animation • Action • Superhero",
+
+    rating:"PG",
+
+    /*
+      Poster artwork
+    */
+
+    poster:
+      "https://i.ebayimg.com/00/s/MTYwMFgxMDY2/z/Eb8AAOSw-W5lWWFp/$_57.JPG?set_id=880000500F",
+
+    desc:
+      "Miles Morales discovers that there is more than one Spider-Man.",
+
+    cast:
+      "Shameik Moore • Hailee Steinfeld • Jake Johnson • Mahershala Ali",
+
+    drive:""
+  },
+
+
+  {
+    id:"across",
+
+    title:"Spider-Man: Across the Spider-Verse",
+
+    year:"2023",
+
+    genre:"Animation • Action • Superhero",
+
+    rating:"PG",
+
+    poster:
+      "https://i.ebayimg.com/images/g/3ogAAOSwZmBlWlTn/s-l400.jpg",
+
+    desc:
+      "Miles Morales is pulled across the multiverse and encounters the Spider Society.",
+
+    cast:
+      "Shameik Moore • Hailee Steinfeld • Brian Tyree Henry • Jake Johnson",
+
+    drive:""
+  },
+
+
+  {
+    id:"black",
+
+    title:"Black Panther",
+
+    year:"2018",
+
+    genre:"Action • Adventure • Superhero",
+
+    rating:"PG-13",
+
+    poster:
+      "https://lumiere-a.akamaihd.net/v1/images/p_blackpanther_19754_4ac13f07.jpeg?region=0%2C0%2C540%2C810",
+
+    desc:
+      "T'Challa returns home to Wakanda to take his place as king.",
+
+    cast:
+      "Chadwick Boseman • Michael B. Jordan • Lupita Nyong'o • Danai Gurira",
+
+    drive:""
+  },
+
+
+  {
+    id:"lego",
+
+    title:"The LEGO Movie",
+
+    year:"2014",
+
+    genre:"Animation • Comedy • Adventure",
+
+    rating:"PG",
+
+    poster:
+      "https://i.ebayimg.com/images/g/3FwAAOSwXYFjgDP-/s-l400.jpg",
+
+    desc:
+      "An ordinary LEGO minifigure is chosen to help save the LEGO universe.",
+
+    cast:
+      "Chris Pratt • Will Ferrell • Elizabeth Banks • Will Arnett",
+
+    drive:"https://drive.google.com/file/d/1L5Re9gLzbLzHB69ubE0vFAO93v4Bt43J/view?usp=sharing"
+  }
+
+];
+
+
+/* =========================================================
+   CURRENT MOVIE
+========================================================= */
+
+let current = null;
+
+
+/* =========================================================
+   FALLBACK POSTER
+========================================================= */
+
+const fallbackPoster =
+  "https://placehold.co/780x1170/181818/ffffff?text=Notflix";
+
+
+/* =========================================================
+   GET POSTER
+========================================================= */
+
+function img(movie){
+
+  return movie.poster || fallbackPoster;
+
+}
+
+
+/* =========================================================
+   CREATE CARD
+========================================================= */
+
+function makeCard(movie,portrait=false){
+
+  const card =
+    document.createElement("article");
+
+  card.className =
+    "card" +
+    (portrait ? " portrait" : "");
+
+  card.tabIndex = 0;
+
+  card.dataset.id = movie.id;
+
+  card.innerHTML = `
+
+    <img
+      src="${img(movie)}"
+      alt="${movie.title}"
+      loading="lazy"
+    >
+
+    <div class="card-info">
+
+      <div class="card-title">
+        ${movie.title}
+      </div>
+
+      <div class="card-meta">
+        ${movie.year} • ${movie.rating}
+      </div>
+
+    </div>
+
+  `;
+
+
+  const image =
+    card.querySelector("img");
+
+
+  image.onerror = function(){
+
+    this.onerror = null;
+
+    this.src = fallbackPoster;
+
+  };
+
+
+  card.onclick =
+    () => details(movie.id);
+
+
+  card.onkeydown =
+    event => {
+
+      if(
+        event.key === "Enter" ||
+        event.key === " "
+      ){
+
+        event.preventDefault();
+
+        details(movie.id);
+
+      }
+
+    };
+
+
+  return card;
+}
+
+
+/* =========================================================
+   RENDER
+========================================================= */
+
+function render(id,list,portrait=false){
+
+  const grid =
+    document.getElementById(id);
+
+  if(!grid) return;
+
+  grid.innerHTML = "";
+
+
+  if(!list.length){
+
+    grid.innerHTML = `
+      <div class="empty">
+        No titles found.
+      </div>
+    `;
+
+    return;
+  }
+
+
+  list.forEach(movie => {
+
+    grid.appendChild(
+      makeCard(movie,portrait)
+    );
+
+  });
+
+}
+
+
+/* =========================================================
+   HOME ROWS
+========================================================= */
+
+render(
+  "continueGrid",
+  [
+    movies.find(m => m.id === "into"),
+    movies.find(m => m.id === "across"),
+    movies.find(m => m.id === "sonic"),
+    movies.find(m => m.id === "sonic2")
+  ].filter(Boolean)
+);
+
+
+render(
+  "popularGrid",
+  movies
+);
+
+
+render(
+  "topGrid",
+  [
+    movies.find(m => m.id === "bad"),
+    movies.find(m => m.id === "black"),
+    movies.find(m => m.id === "fnaf2"),
+    movies.find(m => m.id === "into"),
+    movies.find(m => m.id === "across"),
+    movies.find(m => m.id === "lego")
+  ].filter(Boolean),
+  true
+);
+
+
+render(
+  "moreGrid",
+  [...movies].reverse(),
+  true
+);
+
+
+/* =========================================================
+   DETAILS
+========================================================= */
+
+function details(id){
+
+  current =
+    movies.find(
+      movie => movie.id === id
+    );
+
+
+  if(!current) return;
+
+
+  document
+    .getElementById("mainContent")
+    .style.display = "none";
+
+
+  document
+    .getElementById("hero")
+    .style.display = "none";
+
+
+  document
+    .getElementById("results")
+    .classList.remove("show");
+
+
+  document
+    .getElementById("player")
+    .classList.remove("show");
+
+
+  document
+    .getElementById("details")
+    .classList.add("show");
+
+
+  const detailPoster =
+    document.getElementById("detailPoster");
+
+
+  detailPoster.src =
+    img(current);
+
+
+  detailPoster.onerror =
+    function(){
+
+      this.onerror = null;
+
+      this.src = fallbackPoster;
+
+    };
+
+
+  document
+    .getElementById("detailTitle")
+    .textContent =
+      current.title;
+
+
+  document
+    .getElementById("detailMeta")
+    .textContent =
+      `${current.year} • ${current.genre} • ${current.rating}`;
+
+
+  document
+    .getElementById("detailDesc")
+    .textContent =
+      current.desc;
+
+
+  document
+    .getElementById("detailCast")
+    .textContent =
+      current.cast;
+
+
+  scrollTo(0,0);
+
+}
+
+
+/* =========================================================
+   GOOGLE DRIVE ID
+========================================================= */
+
+function getDriveId(value){
+
+  if(!value) return "";
+
+  value = value.trim();
+
+
+  /*
+    Full Google Drive URL:
+
+    https://drive.google.com/file/d/FILE_ID/view
+  */
+
+  let match =
+    value.match(
+      /\/file\/d\/([^/]+)/i
+    );
+
+
+  if(match){
+
+    return match[1];
+
+  }
+
+
+  /*
+    Google Drive URL with ?id=
+  */
+
+  match =
+    value.match(
+      /[?&]id=([^&]+)/i
+    );
+
+
+  if(match){
+
+    return match[1];
+
+  }
+
+
+  /*
+    Assume the value is already
+    the file ID.
+  */
+
+  if(
+    !value.includes("/") &&
+    !value.includes("?") &&
+    !value.includes("=")
+  ){
+
+    return value;
+
+  }
+
+
+  return "";
+
+}
+
+
+/* =========================================================
+   PLAY MOVIE
+========================================================= */
+
+function playCurrent(){
+
+  if(!current) return;
+
+
+  const driveId =
+    getDriveId(current.drive);
+
+
+  if(!driveId){
+
+    alert(
+      `the movie "${current.title}"'s video has not been uploaded to this website yet.\n\n` +
+      `please come back soon.`
+    );
+
+    return;
+
+  }
+
+
+  document
+    .getElementById("details")
+    .classList.remove("show");
+
+
+  document
+    .getElementById("player")
+    .classList.add("show");
+
+
+  document
+    .getElementById("playerTitle")
+    .textContent =
+      current.title;
+
+
+  const player =
+    document.getElementById("drive");
+
+
+  player.src =
+    `https://drive.google.com/file/d/${driveId}/preview`;
+
+
+  scrollTo(0,0);
+
+}
+
+
+/* =========================================================
+   CLOSE PLAYER
+========================================================= */
+
+function closePlayer(){
+
+  const player =
+    document.getElementById("drive");
+
+  player.src = "";
+
+
+  document
+    .getElementById("player")
+    .classList.remove("show");
+
+
+  goHome();
+
+}
+
+
+/* =========================================================
+   HOME
+========================================================= */
+
+function goHome(){
+
+  document
+    .getElementById("details")
+    .classList.remove("show");
+
+
+  document
+    .getElementById("player")
+    .classList.remove("show");
+
+
+  document
+    .getElementById("results")
+    .classList.remove("show");
+
+
+  document
+    .getElementById("hero")
+    .style.display = "flex";
+
+
+  document
+    .getElementById("mainContent")
+    .style.display = "block";
+
+
+  scrollTo(0,0);
+
+}
+
+
+/* =========================================================
+   SCROLL TO ROW
+========================================================= */
+
+function scrollToRow(id){
+
+  goHome();
+
+
+  setTimeout(() => {
+
+    const element =
+      document.getElementById(id);
+
+
+    if(element){
+
+      element.scrollIntoView({
+        behavior:"smooth",
+        block:"start"
+      });
+
+    }
+
+  },30);
+
+}
+
+
+/* =========================================================
+   SEARCH TOGGLE
+========================================================= */
+
+function toggleSearch(){
+
+  const search =
+    document.getElementById("searchBox");
+
+
+  search.classList.toggle("open");
+
+
+  if(
+    search.classList.contains("open")
+  ){
+
+    search.focus();
+
+  }
+
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+function doSearch(){
+
+  const query =
+    document
+      .getElementById("searchBox")
+      .value
+      .toLowerCase()
+      .trim();
+
+
+  if(!query){
+
+    goHome();
+
+    return;
+
+  }
+
+
+  document
+    .getElementById("hero")
+    .style.display = "none";
+
+
+  document
+    .getElementById("mainContent")
+    .style.display = "none";
+
+
+  document
+    .getElementById("details")
+    .classList.remove("show");
+
+
+  document
+    .getElementById("results")
+    .classList.add("show");
+
+
+  const found =
+    movies.filter(movie => {
+
+      const searchable =
+        `${movie.title} ${movie.genre} ${movie.cast}`
+          .toLowerCase();
+
+
+      return searchable.includes(query);
+
+    });
+
+
+  render(
+    "resultsGrid",
+    found,
+    true
+  );
+
+
+  scrollTo(0,0);
+
+}
+
+
+/* =========================================================
+   NAV SCROLL
+========================================================= */
+
+window.addEventListener(
+  "scroll",
+  () => {
+
+    document
+      .getElementById("nav")
+      .classList.toggle(
+        "scrolled",
+        scrollY > 30
+      );
+
+  }
+);
+
+
+/* =========================================================
+   ESCAPE
+========================================================= */
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    if(event.key !== "Escape")
+      return;
+
+
+    const search =
+      document.getElementById("searchBox");
+
+
+    if(
+      search.classList.contains("open")
+    ){
+
+      search.classList.remove("open");
+
+      search.value = "";
+
+      return;
+
+    }
+
+
+    if(
+
+      document
+        .getElementById("details")
+        .classList.contains("show")
+
+      ||
+
+      document
+        .getElementById("results")
+        .classList.contains("show")
+
+      ||
+
+      document
+        .getElementById("player")
+        .classList.contains("show")
+
+    ){
+
+      goHome();
+
+    }
+
+  }
+);
+
+</script>
+
+</body>
+</html></pre>
+        </body>
+    </html>
