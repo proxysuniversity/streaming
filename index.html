@@ -2435,7 +2435,7 @@ footer{
 </section>
 
 <script>
-const NOTFLIX_TOP_ANNOUNCEMENT = "Added Spider-man 2! and updated TASM1's video! (favicon is a placeholder new one also coming soon)";
+const NOTFLIX_TOP_ANNOUNCEMENT = "New Wave of Movies Coming Soon (favicon is a placeholder new one also coming soon)";
 
 
 /* =========================================================
@@ -2496,15 +2496,15 @@ const homeRows = {
   },
   popular: {
     title: "Best Movies on Notflix",
-    movies: ["buddy", "noWayHome", "flash", "sonicova", "bad", "sp3", "sonic2", "fnaf2", "into", "across", "black", "lego"]
+    movies: ["buddy", "noWayHome", "flash", "sonicova", "bad", "sp3", "sonic2", "fnaf2", "into", "across", "black", "lego","deadpool","deadpool2"]
   },
   top: {
     title: "Top Picks for You",
-    movies: ["buddy", "noWayHome", "flash", "sonicova", "bad", "black", "fnaf2", "into", "across", "lego"]
+    movies: ["buddy", "noWayHome", "flash", "sonicova", "bad", "black", "fnaf2", "into", "across", "lego","deadpool","deadpool2"]
   },
   new: {
     title: "More Movies",
-    movies: ["buddy", "noWayHome", "flash", "sonicova", "lego", "black", "across", "into", "fnaf2", "sonic2", "sp3", "bad"]
+    movies: ["buddy", "noWayHome", "flash", "sonicova", "lego", "black", "across", "into", "fnaf2", "sonic2", "sp3", "bad","deadpool","deadpool2"]
   },
   allTitles: {
     title: "Every Movie & Show",
@@ -2520,7 +2520,7 @@ const homeRows = {
   },
   spidermanCollection: {
     title: "Spider-Man Collection",
-    movies: ["spiderman2002", "amazingSpiderman", "homecoming", "farFromHome", "noWayHome", "sp3", "into", "across"]
+    movies: ["amazingSpiderman2", "spiderman2002", "amazingSpiderman", "homecoming", "farFromHome", "noWayHome", "sp3", "into", "across"]
   },
   sonicCollection: {
     title: "Sonic Collection",
@@ -2535,6 +2535,16 @@ const homeRows = {
 ========================================================= */
 
 const updateLog = [
+  {
+    version:"Latest",
+    date:"September 28, 2026",
+    text:"Added the Deadpool and Deadpool 2 movie entries."
+  },
+  {
+    version:"Latest",
+    date:"September 28, 2026",
+    text:"Added Iron Man, The Amazing Spider-Man 2, Avengers: Infinity War, Avengers: Endgame, Twisters, Wreck-It Ralph, and Jurassic Park: Rebirth. Venom was already in the database."
+  },
   {
     version:"Latest",
     date:"September 26, 2026",
@@ -2806,18 +2816,144 @@ const updateLog = [
 
 const movies = [
   {
+    id:"deadpool",
+    title:"Deadpool",
+    duration:"1h 48m",
+    taglineColor:"red",
+    tagline:"",
+    year:"2016",
+    genre:"Action • Comedy • Sci-Fi",
+    rating:"R",
+    poster:"https://myhotposters.com/cdn/shop/products/mHP0069_1024x1024.jpeg?v=1748542062",
+    desc:"Deadpool.",
+    cast:"Ryan Reynolds • Morena Baccarin • T.J. Miller",
+    drive:""
+  },
+  {
+    id:"deadpool2",
+    title:"Deadpool 2",
+    duration:"1h 59m",
+    taglineColor:"red",
+    tagline:"",
+    year:"2018",
+    genre:"Action • Comedy • Sci-Fi",
+    rating:"R",
+    poster:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNsyIfv_ai0PEAAmVVeKrj7ipJhCITq21Wd1nKA_Es7g&s=10",
+    desc:"Deadpool 2.",
+    cast:"Ryan Reynolds • Josh Brolin • Zazie Beetz",
+    drive:""
+  },
+  {
+    id:"ironman",
+    title:"Iron Man",
+    duration:"2h 6m",
+    taglineColor:"red",
+    tagline:"",
+    year:"2008",
+    genre:"Action • Adventure • Sci-Fi",
+    rating:"PG-13",
+    poster:"https://cdn.displate.com/artwork/857x1200/2025-02-25/556c72d8392d614ce4796e3322cdd6df_793e4519ff73f8f18c5dc48d14837b56.jpg",
+    desc:"Iron Man.",
+    cast:"Robert Downey Jr. • Gwyneth Paltrow • Jeff Bridges",
+    drive:""
+  },
+  {
+    id:"amazingSpiderman2",
+    title:"The Amazing Spider-Man 2",
+    duration:"2h 21m",
+    taglineColor:"red",
+    tagline:"The Amazing Spider-Man 2",
+    year:"2014",
+    genre:"Action • Adventure • Sci-Fi",
+    rating:"PG-13",
+    poster:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTb4Cba7TcxLDUU1iyFVj6vUsMwsJw-61QN5PhxIM72U8K0UwMZ3dUw2Lg&s=10",
+    desc:"The Amazing Spider-Man 2.",
+    cast:"Andrew Garfield • Emma Stone • Jamie Foxx",
+    drive:"https://drive.google.com/file/d/1Xf8xZcY3kneGFln8NPsQMt7CLtmGhEeD/view?usp=sharing"
+  },
+  {
+    id:"infinityWar",
+    title:"Avengers: Infinity War",
+    duration:"2h 29m",
+    taglineColor:"red",
+    tagline:"",
+    year:"2018",
+    genre:"Action • Adventure • Sci-Fi",
+    rating:"PG-13",
+    poster:"https://cdn.europosters.eu/image/1300/122134.jpg",
+    desc:"Avengers: Infinity War.",
+    cast:"Robert Downey Jr. • Chris Evans • Chris Hemsworth",
+    drive:""
+  },
+  {
+    id:"endgame",
+    title:"Avengers: Endgame",
+    duration:"3h 1m",
+    taglineColor:"red",
+    tagline:"Avengers: Endgame",
+    year:"2019",
+    genre:"Action • Adventure • Sci-Fi",
+    rating:"PG-13",
+    poster:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkTyrwCSaBnTjGvgCNP9N5aa3lg4PNKljRgoLYDDrCDSweI4PgLqdZ21M&s=10",
+    desc:"Avengers: Endgame.",
+    cast:"Robert Downey Jr. • Chris Evans • Mark Ruffalo",
+    drive:""
+  },
+  {
+    id:"twisters",
+    title:"Twisters",
+    duration:"2h 2m",
+    taglineColor:"red",
+    tagline:"",
+    year:"2024",
+    genre:"Action • Adventure • Thriller",
+    rating:"PG-13",
+    poster:"https://cdn.displate.com/artwork/270x380/2024-11-14/c6d436fe-92e2-4cca-9308-9ff7378a208f.jpg",
+    desc:"Twisters.",
+    cast:"Daisy Edgar-Jones • Glen Powell • Anthony Ramos",
+    drive:""
+  },
+  {
+    id:"wreckItRalph",
+    title:"Wreck-It Ralph",
+    duration:"1h 41m",
+    taglineColor:"red",
+    tagline:"",
+    year:"2012",
+    genre:"Animation • Comedy • Adventure",
+    rating:"PG",
+    poster:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQumDeWl4MsC7DtE1JHNz9frjxyekc9bmHPde5TVQ1Ggg&s=10",
+    desc:"Wreck-It Ralph.",
+    cast:"John C. Reilly • Sarah Silverman • Jack McBrayer",
+    drive:""
+  },
+  {
+    id:"jurassicRebirth",
+    title:"Jurassic Park: Rebirth",
+    duration:"2h 13m",
+    taglineColor:"red",
+    tagline:"",
+    year:"2025",
+    genre:"Action • Adventure • Sci-Fi",
+    rating:"PG-13",
+    poster:"https://cdn.europosters.eu/image/1300/276459.jpg",
+    desc:"Jurassic Park: Rebirth.",
+    cast:"Scarlett Johansson • Mahershala Ali • Jonathan Bailey",
+    drive:""
+  },
+  {
     id:"spiderman2",
     title:"Spider-Man 2",
     duration:"2h 7m",
-    taglineColor:"green",
-    tagline:"Critics' Choice Awards: Won Best Popular Movie.",
+    taglineColor:"red",
+    tagline:"",
     year:"2004",
     genre:"Action • Adventure • Sci-Fi",
     rating:"PG-13",
-    poster:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_aXQBuITihHdn81YrVVvvc3LC_1VECstPxvaF_mhfLw&s=10",
+    poster:"https://image.tmdb.org/t/p/w600_and_h900_bestv2/olxpyq9kJAZ2NU1XZyPjN7mXQJ6.jpg",
     desc:"Peter Parker struggles to balance his personal life with his responsibilities as Spider-Man while facing a new threat.",
     cast:"Tobey Maguire • Kirsten Dunst • Alfred Molina • James Franco",
-    drive:"https://drive.google.com/file/d/1AGPgZuNoUFb85T-C2cvjIFRATbUgSPWj/view?usp=sharing"
+    drive:""
   },
 
   {
